@@ -32,39 +32,39 @@ class mongo {
   async saveProduct(data) {
     try {
       const product = new ProductModel();
-      await product.saveDataInDb(data);
-      console.log("data added in db");
+      const response = await product.saveDataInDb(data);
+      return response;
     } catch (err) {
       console.log(err);
     }
   }
 
-  async getProduct(queryData){
-    try{
+  async getProduct(queryData) {
+    try {
       const product = new ProductModel();
       const response = await product.getDataFromDb(queryData);
       return response;
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
   }
 
-  async updateProduct(queryData, updateData){
-    try{
+  async updateProduct(queryData, updateData) {
+    try {
       const product = new ProductModel();
-      const response = await product.updateDataInDb(queryData,updateData);
+      const response = await product.updateDataInDb(queryData, updateData);
       return response;
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
   }
 
-  async deleteProduct(queryData){
-    try{
+  async deleteProduct(queryData) {
+    try {
       const product = new ProductModel();
       const response = await product.deleteDataInDb(queryData);
       return response;
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
   }
