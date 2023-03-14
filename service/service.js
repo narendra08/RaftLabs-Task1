@@ -1,33 +1,17 @@
 var Mongoose = require("mongoose");
 const ProductModel = require("../model/model");
 const axios = require("axios");
+const dotenv = require('dotenv').config();
+const DB_URL = process.env.DB_URL;
 class mongo {
   constructor() {
-    Mongoose.connect("mongodb://127.0.0.1:27017/myDb", {
+    Mongoose.connect(DB_URL, {
       useNewurlParser: true,
       useUnifiedTopology: true,
     })
       .then(console.log("connected to db"))
       .catch((err) => console.log(err));
   }
-  // async addProductService() {
-  //   const product = new Product();
-  //   await product.addAllProduct();
-  //   console.log("product added");
-  // }
-
-  // async addAllProduct() {
-  //   try {
-  //     const response = await axios.get("https://dummyjson.com/products");
-  //     const products = response.data.products;
-  //     products.map((data) => {
-  //       let product = new Product(data);
-  //       product.saveProduct(data);
-  //     });
-  //   } catch (err) {
-  //     console.log("err", err);
-  //   }
-  // }
 
   async saveProduct(data) {
     try {

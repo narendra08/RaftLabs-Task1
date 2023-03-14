@@ -1,7 +1,9 @@
 const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv").config();
+const Secret = process.env.SECRET_KEY;
 
 function getToken() {
-  const token = jwt.sign("admin", "MY_SECRET", { expiresIn: 3600 });
+  const token = jwt.sign("admin", Secret, { expiresIn: 3600 });
   return token;
 }
 function verifyToken(req, res, next) {
