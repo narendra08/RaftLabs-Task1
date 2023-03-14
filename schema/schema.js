@@ -12,4 +12,4 @@ let productSchema = new mongoose.Schema({
   category: String,
 });
 
-module.exports = mongoose.model("product", productSchema);
+module.exports = productSchema;

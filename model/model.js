@@ -1,26 +1,23 @@
-const Product = require("../schema/schema");
+const productSchema = require("../schema/schema");
 const Mongoose = require("mongoose");
+const Product = Mongoose.model("Product", productSchema);
 class product {
   constructor() {}
   async saveDataInDb(data) {
-    let product = new Product(data);
-    await product.save();
-    console.log("product added in db");
+    await Product.create(data);
+    return {msg:"product added in db"};
   }
 
   async getDataFromDb(queryData) {
-    let product = new Product();
-    return await product.findOne({id:queryData});
+    return await Product.findOne({ id: queryData });
   }
 
-  async updateDataInDb(queryData,updateData) {
-    let product = new Product();
-    return await product.updateOne({brand:"apple"},updateData);
+  async updateDataInDb(queryData, updateData) {
+    return await Product.updateOne({id:queryData}, updateData);
   }
 
-  async deleteProduct(queryData) {
-    let product = new Product();
-    return await product.deleteOne({id:queryData});
+  async deleteDataInDb(queryData) {
+    return await Product.deleteOne({ id: queryData });
   }
 }
 module.exports = product;
