@@ -3,15 +3,10 @@ const app = express();
 const Service = require("../service/service");
 const serviceInstance = new Service();
 const { getToken, verifyToken } = require("../middleware/auth");
-const Validations = require("../middleware/Validaion");
-const Handler = require('../serviceHanler');
+const Validations = require("../middleware/Validation");
+const Handler = require("../serviceHandler");
 
-app.get("/test", (req, res) => {
-  res.send("hello world");
-  console.log("hello");
-  // serviceInstance.addAllProduct();
-});
-
+//to ligin and get token for authorization
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
   if (username == "admin" && password == "admin@123") {
@@ -22,51 +17,54 @@ app.post("/login", (req, res) => {
   }
 });
 
+//to add product
 app.post(
-  "/saveProduct",
+  "/addProduct",
   verifyToken,
   Validations.saveProductValidation,
   (req, res) => {
-      const data = req.body;
-      let handler = new Handler();
-      handler.serviceHandler(
-        req,
-        res,
-      serviceInstance.saveProduct(data));
-        res.send('product saved successfully');
+    const data = req.body;
+    let handler = new Handler();
+    handler.serviceHandler(req, res, serviceInstance.saveProduct(data));
   }
-  
 );
 
-app.put("/updateProduct", (req, res) => {
-  try {
+app.put(
+  "/updateProduct",
+  verifyToken,
+  Validations.updateProductValidation,
+  (req, res) => {
     const queryData = req.query.id;
     const updateData = req.body;
-    const response = serviceInstance.updateProduct(queryData, updateData);
-    res.send("data updated succcessfully");
-  } catch (err) {
-    console.log(err);
+    let handler = new Handler();
+    handler.serviceHandler(
+      req,
+      res,
+      serviceInstance.updateProduct(queryData, updateData)
+    );
   }
-});
+);
 
-app.get("/getProduct", (req, res) => {
-  try {
+app.get(
+  "/getProduct",
+  verifyToken,
+  Validations.getProductValidation,
+  (req, res) => {
     const queryData = req.query.id;
-    const response = serviceInstance.getProduct(queryData);
-    res.send(response);
-  } catch (err) {
-    console.log(err);
+    let handler = new Handler();
+    handler.serviceHandler(req, res, serviceInstance.getProduct(queryData));
   }
-});
+);
 
-app.delete("/deleteProduct", (req, res) => {
-  try {
+app.delete(
+  "/deleteProduct",
+  verifyToken,
+  Validations.deleteProductValidation,
+  (req, res) => {
     const id = req.query.id;
-    serviceInstance.deleteProduct(id);
-    res.send("data deleted succcessfully");
-  } catch (err) {
-    console.log(err);
+    let handler = new Handler();
+    handler.serviceHandler(req, res, serviceInstance.deleteProduct(id));
   }
-});
+);
 
 module.exports = app;
