@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const routes = require('./routes/routes');
 const dotenv = require('dotenv').config();
+const helmet = require('helmet');
+const bodyParser = require('body-parser');
+
 const Port = process.env.PORT;
 
 app.listen(Port, function () {
@@ -9,5 +12,5 @@ app.listen(Port, function () {
 });
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+app.use(helmet());
 app.use("/",routes);
