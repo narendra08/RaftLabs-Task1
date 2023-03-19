@@ -9,7 +9,7 @@ class product {
   }
 
   async getDataFromDb(queryData) {
-    return await Product.findOne({ id: queryData });
+    return await Product.find({id:queryData}).sort({id:-1});
   }
 
   async updateDataInDb(queryData, updateData) {

@@ -3,7 +3,7 @@ const dotenv = require("dotenv").config();
 const Secret = process.env.SECRET_KEY;
 
 function getToken() {
-  const token = jwt.sign("admin", Secret, { expiresIn: 3600 });
+  const token = jwt.sign({admin:'admin'}, Secret, {  });
   return token;
 }
 function verifyToken(req, res, next) {
@@ -12,7 +12,7 @@ function verifyToken(req, res, next) {
     res.status(403).json({ msg: "no token " });
   }
   try {
-    jwt.verify(token, "MY_SECRET");
+    jwt.verify(token, Secret);
   } catch (err) {
     return res.json({
       msg: "Invalid Token",
